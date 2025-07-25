@@ -50,6 +50,8 @@ func open_main_menu():
 	$OptionsMenu.hide()
 	$HUD.hide()
 	get_tree().paused = true
+	
+	$MainMenu/MarginContainer/VBoxContainer/StartGameButton.grab_focus()
 
 func open_pause_menu():
 	current_state = UIState.PAUSE_MENU
@@ -58,6 +60,8 @@ func open_pause_menu():
 	$OptionsMenu.hide()
 	$HUD.show()
 	get_tree().paused = true
+	
+	$PauseMenu/MarginContainer/VBoxContainer/ResumeGameButton.grab_focus()
 
 func open_options_menu():
 	current_state = UIState.OPTIONS_MENU

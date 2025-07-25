@@ -1,0 +1,143 @@
+[gd_scene load_steps=7 format=3 uid="uid://dh0kc5ysas7xu"]
+
+[ext_resource type="Script" uid="uid://dd4r1r2hvvp4d" path="res://ui/ui.gd" id="1_nb4k0"]
+[ext_resource type="Script" uid="uid://c4ms86uokerem" path="res://ui/hud.gd" id="2_ks8t7"]
+
+[sub_resource type="InputEventAction" id="InputEventAction_ks8t7"]
+action = &"start_game"
+
+[sub_resource type="Shortcut" id="Shortcut_wl5ax"]
+events = [SubResource("InputEventAction_ks8t7")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_vkava"]
+action = &"start_game"
+
+[sub_resource type="Shortcut" id="Shortcut_tf0e0"]
+events = [SubResource("InputEventAction_vkava")]
+
+[node name="UI" type="CanvasLayer"]
+script = ExtResource("1_nb4k0")
+
+[node name="HUD" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_ks8t7")
+
+[node name="ScoreLabel" type="Label" parent="HUD"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="ScoreText" type="Label" parent="HUD"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="HealthBar" type="ProgressBar" parent="HUD"]
+layout_mode = 0
+offset_right = 4.0
+offset_bottom = 27.0
+
+[node name="MessageLabel" type="Label" parent="HUD"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="MessageTimer" type="Timer" parent="HUD"]
+
+[node name="MainMenu" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_group_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="MainMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -48.0
+offset_top = -50.5
+offset_right = 48.0
+offset_bottom = 50.5
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/MarginContainer"]
+layout_mode = 2
+
+[node name="StartGameButton" type="Button" parent="MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+shortcut = SubResource("Shortcut_wl5ax")
+text = "Start Game"
+
+[node name="OptionsButton" type="Button" parent="MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Options"
+
+[node name="ExitGameButton" type="Button" parent="MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Exit Game"
+
+[node name="PauseMenu" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+metadata/_edit_group_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="PauseMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 394.5
+offset_top = 201.0
+offset_right = 565.5
+offset_bottom = 359.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu/MarginContainer"]
+layout_mode = 2
+
+[node name="ResumeGameButton" type="Button" parent="PauseMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+shortcut = SubResource("Shortcut_tf0e0")
+text = "Resume Game"
+
+[node name="NewGameButton" type="Button" parent="PauseMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "New Game"
+
+[node name="OptionsButton" type="Button" parent="PauseMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Options"
+
+[node name="ExitGameButton" type="Button" parent="PauseMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Exit Game"
+
+[node name="OptionsMenu" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0

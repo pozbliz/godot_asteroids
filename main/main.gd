@@ -20,11 +20,12 @@ func _input(event):
 			
 func _on_ui_game_started():
 	play_game_music()
-			
+	$Player.position = $PlayerStartPosition.position
+	
 func play_main_menu_music():
 	$Audio/AudioGameplay.stop()
 	$Audio/AudioMainMenu.play()
-
+	
 func play_game_music():
 	$Audio/AudioMainMenu.stop()
 	$Audio/AudioGameplay.play()

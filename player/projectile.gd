@@ -1,4 +1,5 @@
 extends Area2D
+class_name Projectile
 
 
 const PROJECTILE_SPEED: float = 600.0

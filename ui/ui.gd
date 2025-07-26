@@ -86,3 +86,8 @@ func get_current_state() -> UIState:
 	
 func is_game_running() -> bool:
 	return $HUD.visible and not $MainMenu.visible and not $PauseMenu.visible and not $OptionsMenu.visible
+	
+func show_message(text):
+	$HUD/MessageLabel.text = text
+	$HUD/MessageLabel.show()
+	$HUD/MessageTimer.start()

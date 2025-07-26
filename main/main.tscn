@@ -14,6 +14,9 @@ script = ExtResource("1_53q0u")
 [node name="PlayerStartPosition" type="Marker2D" parent="."]
 position = Vector2(500, 300)
 
+[node name="AsteroidTimer" type="Timer" parent="."]
+wait_time = 0.5
+
 [node name="UI" parent="." instance=ExtResource("2_pjrb6")]
 
 [node name="Audio" type="Node" parent="."]

@@ -35,6 +35,7 @@ offset_right = 40.0
 offset_bottom = 23.0
 
 [node name="MessageTimer" type="Timer" parent="HUD"]
+wait_time = 2.0
 
 [node name="MainMenu" type="Control" parent="."]
 layout_mode = 3

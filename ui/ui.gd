@@ -5,6 +5,8 @@ enum UIState { MAIN_MENU, PAUSE_MENU, OPTIONS_MENU, GAMEPLAY }
 
 var current_state: UIState = UIState.MAIN_MENU
 
+signal game_started
+
 
 func _ready() -> void:
 	$MainMenu/MarginContainer/VBoxContainer/StartGameButton.pressed.connect(_on_start_game_button_pressed)
@@ -18,7 +20,6 @@ func _ready() -> void:
 	
 	$PauseMenu.process_mode = Node.PROCESS_MODE_ALWAYS
 	
-	open_main_menu()
 
 func _process(delta: float) -> void:
 	pass
@@ -78,6 +79,7 @@ func start_game():
 	$OptionsMenu.hide()
 	$HUD.show()
 	get_tree().paused = false
+	game_started.emit()
 	
 func get_current_state() -> UIState:
 	return current_state

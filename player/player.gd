@@ -1,6 +1,8 @@
 extends CharacterBody2D
 
 
+@export var projectile_scene: PackedScene
+
 const ACCELERATION: float = 1.5
 const MAX_SPEED: float = 800.0
 const ROTATION_SPEED: float = 2.5
@@ -27,3 +29,11 @@ func _process(delta: float) -> void:
 	
 func _unhandled_input(event: InputEvent) -> void:
 	turn_direction = Input.get_axis("turn_left", "turn_right")
+	if Input.is_action_just_pressed("shoot"):
+		shoot()
+	
+func shoot():
+	var shot = projectile_scene.instantiate()
+	owner.add_child(shot)
+	shot.global_position = global_position
+	shot.direction = transform.x.normalized()

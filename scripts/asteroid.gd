@@ -8,6 +8,10 @@ class_name Asteroid
 @export var damage: int = 1
 
 var direction: Vector2 = Vector2.ZERO
+var is_hit: bool = false
+var velocity: Vector2 = Vector2.ZERO
+var spawn_immunity_time: float = 0.1
+var time_since_spawn: float = 0.0
 
 
 signal player_hit
@@ -18,10 +22,17 @@ func _ready() -> void:
 	$Area2D.body_entered.connect(_on_asteroid_body_entered)
 	$Area2D.area_entered.connect(_on_asteroid_area_entered)
 	$VisibleOnScreenNotifier2D.screen_exited.connect(_on_screen_exited)
+	
+func setup(dir: Vector2, speed: float = -1.0) -> void:
+	direction = dir.normalized()
+	var final_speed = speed if speed > 0 else default_speed
+	var speed_variation = randf_range(0.75, 1.25)
+	velocity = direction * final_speed * speed_variation
+	rotation = direction.angle()
 
 func _process(delta: float) -> void:
-	var velocity = direction * default_speed * randf_range(0.75, 1.25)
 	position += velocity * delta
+	time_since_spawn += delta
 	
 func rescale(size_value: float):
 	size = size_value
@@ -32,8 +43,12 @@ func _on_asteroid_body_entered(body):
 		player_hit.emit(damage)
 
 func _on_asteroid_area_entered(area):
+	if is_hit or time_since_spawn < spawn_immunity_time:
+		return
+		
 	if area is Projectile:
-		asteroid_hit.emit(points)
+		is_hit = true
+		asteroid_hit.emit(points, position, direction)
 		$Area2D/CollisionShape2D.set_deferred("disabled", true)
 		queue_free()
 		

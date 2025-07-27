@@ -2,6 +2,8 @@ extends CharacterBody2D
 class_name Player
 
 
+@onready var hp_bar = $HealthBar
+
 @export var projectile_scene: PackedScene
 @export var max_hp: int = 3
 
@@ -13,13 +15,20 @@ const SHOT_COOLDOWN : float = 0.3
 
 var turn_direction: int = 0
 var time_since_last_shot: float = 0.0
+var current_hp: int
+var is_invulnerable: bool = false
+
+signal player_died
 
 
 func _ready() -> void:
+	current_hp = max_hp
 	var hp_bar = $HealthBar
 	hp_bar.max_value = max_hp
 	hp_bar.value = max_hp
 	hp_bar.visible = false
+	
+	$InvulnerabilityTimer.timeout.connect(_on_invulnerability_timer_timeout)
 
 func _physics_process(delta: float) -> void:
 	var thrust = Vector2.ZERO
@@ -49,6 +58,30 @@ func shoot():
 	owner.add_child(shot)
 	shot.transform = $CannonPosition.global_transform
 	time_since_last_shot = 0
+	
+func take_damage(amount: int):
+	if is_invulnerable:
+		return
+		
+	is_invulnerable = true
+	$InvulnerabilityTimer.start()
+		
+	current_hp -= amount
+	hp_bar.visible = true
+	hp_bar.value = current_hp
+	
+	if current_hp <= 0:
+		$CollisionShape2D.set_deferred("disabled", true)
+		player_died.emit()
+	
+func reset_player():
+	current_hp = max_hp
+	hp_bar.visible = false
+	hp_bar.value = current_hp
+	is_invulnerable = false
+	
+func _on_invulnerability_timer_timeout():
+	is_invulnerable = false
 	
 func play_death_animation():
 	pass

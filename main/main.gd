@@ -4,12 +4,8 @@ extends Node
 @export var asteroid_scene: PackedScene
 @export var asteroid_small_scene: PackedScene
 
-@onready var invulnerability_timer: Timer = Timer.new()
-@onready var hp_bar = $Player/HealthBar
 
 var score: int = 0
-var current_hp: int
-var is_invulnerable: bool = false
 
 
 func _ready() -> void:
@@ -19,7 +15,7 @@ func _ready() -> void:
 	$Audio/AudioMainMenu.play()
 	
 	$AsteroidTimer.timeout.connect(_on_asteroid_timer_timeout)
-	$InvulnerabilityTimer.timeout.connect(_on_invulnerability_timer_timeout)
+	$Player.player_died.connect(_on_player_died)
 
 func _process(delta: float) -> void:
 	pass
@@ -33,14 +29,11 @@ func _input(event):
 			$UI.start_game()
 			
 func _on_ui_game_started():
-	play_game_music()
-	$Player.position = $PlayerStartPosition.position
 	score = 0
-	current_hp = $Player.max_hp
-	hp_bar.visible = false
-	hp_bar.value = current_hp
-	is_invulnerable = false
+	$Player.reset_player()
+	$Player.position = $PlayerStartPosition.position
 	$AsteroidTimer.start()
+	play_game_music()
 	
 func play_main_menu_music():
 	$Audio/AudioGameplay.stop()
@@ -72,6 +65,7 @@ func create_asteroid() -> Asteroid:
 	asteroid.asteroid_hit.connect(_on_asteroid_hit)
 	asteroid.rescale(randf_range(3.0, 6.0))
 	asteroid.points = 2
+	asteroid.damage = 2
 	
 	return asteroid
 	
@@ -82,23 +76,15 @@ func create_small_asteroid() -> Asteroid:
 	asteroid.asteroid_hit.connect(_on_asteroid_hit)
 	asteroid.rescale(randf_range(1.5, 2.5))
 	asteroid.points = 1
+	asteroid.damage = 1
 	
 	return asteroid
 	
-func _on_player_hit():
-	if is_invulnerable:
-		return
-		
-	is_invulnerable = true
-	$InvulnerabilityTimer.start()
-		
-	current_hp -= 1
-	hp_bar.visible = true
-	hp_bar.value = current_hp
+func _on_player_hit(damage: int):
+	$Player.take_damage(damage)
 	
-	if current_hp <= 0:
-		$Player/CollisionShape2D.set_deferred("disabled", true)
-		game_over()
+func _on_player_died():
+	game_over()
 	
 func game_over():
 	await $UI/HUD.show_game_over()
@@ -109,6 +95,3 @@ func _on_asteroid_hit(points):
 	# split asteroid into smaller pieces
 	score += points
 	$UI/HUD.update_score(score)
-	
-func _on_invulnerability_timer_timeout():
-	is_invulnerable = false

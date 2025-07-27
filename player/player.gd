@@ -3,6 +3,7 @@ class_name Player
 
 
 @export var projectile_scene: PackedScene
+@export var max_hp: int = 3
 
 const ACCELERATION: float = 1.5
 const MAX_SPEED: float = 800.0
@@ -15,7 +16,10 @@ var time_since_last_shot: float = 0.0
 
 
 func _ready() -> void:
-	pass
+	var hp_bar = $HealthBar
+	hp_bar.max_value = max_hp
+	hp_bar.value = max_hp
+	hp_bar.visible = false
 
 func _physics_process(delta: float) -> void:
 	var thrust = Vector2.ZERO

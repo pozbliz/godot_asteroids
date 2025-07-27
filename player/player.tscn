@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c2os765h43jfg"]
+[gd_scene load_steps=12 format=3 uid="uid://c2os765h43jfg"]
 
 [ext_resource type="Script" uid="uid://cm3ttl5yw8tqv" path="res://player/player.gd" id="1_oul6g"]
 [ext_resource type="PackedScene" uid="uid://cwpgdrgkt7coe" path="res://player/projectile.tscn" id="2_rkbax"]
@@ -45,6 +45,22 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_yw30f"]
 radius = 17.0
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yw30f"]
+bg_color = Color(0.0278928, 0.307724, 0.367577, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qjkh3"]
+bg_color = Color(0.0663261, 0.55898, 0.5999, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_oul6g")
 projectile_scene = ExtResource("2_rkbax")
@@ -63,3 +79,15 @@ shape = SubResource("CircleShape2D_yw30f")
 
 [node name="CannonPosition" type="Marker2D" parent="."]
 position = Vector2(20, 0)
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+offset_left = -22.0
+offset_top = -26.0
+offset_right = 25.0
+offset_bottom = -20.0
+theme_override_styles/background = SubResource("StyleBoxFlat_yw30f")
+theme_override_styles/fill = SubResource("StyleBoxFlat_qjkh3")
+max_value = 3.0
+step = 1.0
+value = 3.0
+show_percentage = false

@@ -1,4 +1,11 @@
-extends Area2D
+extends Node2D
+class_name Asteroid
+
+
+@export var default_speed: float = 200.0
+@export var size: float = 1.0
+
+var direction: Vector2 = Vector2.ZERO
 
 
 signal player_hit
@@ -6,10 +13,16 @@ signal asteroid_hit
 
 
 func _ready() -> void:
-	body_entered.connect(_on_asteroid_body_entered)
+	$Area2D.body_entered.connect(_on_asteroid_body_entered)
+	$Area2D.area_entered.connect(_on_asteroid_area_entered)
 
 func _process(delta: float) -> void:
-	pass
+	var velocity = direction * default_speed * randf_range(0.75, 1.25)
+	position += velocity * delta
+	
+func rescale(size_value: float):
+	size = size_value
+	scale = Vector2(size, size)
 
 func _on_asteroid_body_entered(body):
 	if body is Player:
@@ -18,3 +31,4 @@ func _on_asteroid_body_entered(body):
 func _on_asteroid_area_entered(area):
 	if area is Projectile:
 		asteroid_hit.emit()
+		queue_free()

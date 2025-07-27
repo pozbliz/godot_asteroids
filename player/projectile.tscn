@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://ck1fql35u6qlo" path="res://player/projectile.gd" id="1_d1ygb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_islhu"]
+size = Vector2(5, 5)
 
 [node name="Projectile" type="Area2D"]
 script = ExtResource("1_d1ygb")
@@ -12,6 +13,9 @@ offset_right = 5.0
 offset_bottom = 5.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2.5, 2.5)
 shape = SubResource("RectangleShape2D_islhu")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(2.5, 2.5)
+scale = Vector2(0.25, 0.25)

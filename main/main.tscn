@@ -1,15 +1,32 @@
-[gd_scene load_steps=6 format=3 uid="uid://3ype7sdg6qmg"]
+[gd_scene load_steps=9 format=3 uid="uid://3ype7sdg6qmg"]
 
 [ext_resource type="Script" uid="uid://x6o647o2k51q" path="res://main/main.gd" id="1_53q0u"]
 [ext_resource type="PackedScene" uid="uid://c2os765h43jfg" path="res://player/player.tscn" id="2_3wy1v"]
+[ext_resource type="PackedScene" uid="uid://cbw12rosm8j2k" path="res://scenes/asteroid.tscn" id="2_4dugh"]
 [ext_resource type="PackedScene" uid="uid://dh0kc5ysas7xu" path="res://ui/ui.tscn" id="2_pjrb6"]
+[ext_resource type="PackedScene" uid="uid://deohgif4ljbbu" path="res://scenes/asteroid_small.tscn" id="3_67ri8"]
 [ext_resource type="AudioStream" uid="uid://clct07bltt7ry" path="res://art/music/loading.wav" id="3_xwkvk"]
 [ext_resource type="AudioStream" uid="uid://8jxme72qogq7" path="res://art/music/meet-the-princess.wav" id="4_c651c"]
 
+[sub_resource type="Curve2D" id="Curve2D_4dugh"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 1000, 0, 0, 0, 0, 0, 1000, 600, 0, 0, 0, 0, 0, 600, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1000, 0)
+}
+point_count = 5
+
 [node name="Main" type="Node"]
 script = ExtResource("1_53q0u")
+asteroid_scene = ExtResource("2_4dugh")
+asteroid_small_scene = ExtResource("3_67ri8")
 
 [node name="Player" parent="." instance=ExtResource("2_3wy1v")]
+
+[node name="AsteroidPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_4dugh")
+
+[node name="AsteroidSpawnLocation" type="PathFollow2D" parent="AsteroidPath"]
+position = Vector2(1000, 0)
+rotation = 1.5708
 
 [node name="PlayerStartPosition" type="Marker2D" parent="."]
 position = Vector2(500, 300)

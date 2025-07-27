@@ -2,6 +2,7 @@ extends Node
 
 
 @export var asteroid_scene: PackedScene
+@export var asteroid_small_scene: PackedScene
 
 
 var score: int = 0
@@ -30,6 +31,7 @@ func _on_ui_game_started():
 	play_game_music()
 	$Player.position = $PlayerStartPosition.position
 	score = 0
+	$AsteroidTimer.start()
 	
 func play_main_menu_music():
 	$Audio/AudioGameplay.stop()
@@ -40,19 +42,46 @@ func play_game_music():
 	$Audio/AudioGameplay.play()
 	
 func _on_asteroid_timer_timeout():
-	create_asteroid()
+	var asteroid: Asteroid
+	if randf() < 0.5:
+		asteroid = create_asteroid()
+	else:
+		asteroid = create_small_asteroid()
+	var asteroid_spawn_location = $AsteroidPath/AsteroidSpawnLocation
+	asteroid_spawn_location.progress_ratio = randf()
+	asteroid.position = asteroid_spawn_location.position
+	var angle = asteroid_spawn_location.rotation + PI/2
+	# Add some randomness to the direction.
+	angle += randf_range(-PI / 4, PI / 4)
+	asteroid.rotation = angle
+
+	# Choose the velocity for the mob.
+	#asteroid.velocity = Vector2(asteroid.default_speed, 0.0).rotated(direction)
+	asteroid.direction = Vector2(cos(angle), sin(angle)).normalized()
 	
-func create_asteroid():
+func create_asteroid() -> Asteroid:
 	var asteroid = asteroid_scene.instantiate()
 	add_child(asteroid)
 	asteroid.player_hit.connect(_on_player_hit)
 	asteroid.asteroid_hit.connect(_on_asteroid_hit)
+	asteroid.rescale(randf_range(3.0, 6.0))
+	
+	return asteroid
+	
+func create_small_asteroid() -> Asteroid:
+	var asteroid = asteroid_small_scene.instantiate()
+	add_child(asteroid)
+	asteroid.player_hit.connect(_on_player_hit)
+	asteroid.asteroid_hit.connect(_on_asteroid_hit)
+	asteroid.rescale(randf_range(1.5, 2.5))
+	
+	return asteroid
 	
 func _on_player_hit():
 	game_over()
 	
 func game_over():
-	await $UI.show_message("Game Over")
+	await $UI/HUD.show_game_over()
 	$UI.open_main_menu()
 	play_main_menu_music()
 	

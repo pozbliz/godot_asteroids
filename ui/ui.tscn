@@ -9,32 +9,53 @@ script = ExtResource("1_nb4k0")
 
 [node name="HUD" type="Control" parent="."]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("2_ks8t7")
 
-[node name="ScoreLabel" type="Label" parent="HUD"]
-layout_mode = 0
-offset_right = 40.0
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
 offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_constants/separation = 20
 
-[node name="ScoreText" type="Label" parent="HUD"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+[node name="ScoreText" type="Label" parent="HUD/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 30
+text = "Score:"
+
+[node name="ScoreLabel" type="Label" parent="HUD/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme_override_font_sizes/font_size = 30
+text = "0"
 
 [node name="HealthBar" type="ProgressBar" parent="HUD"]
 layout_mode = 0
 offset_right = 4.0
 offset_bottom = 27.0
 
-[node name="MessageLabel" type="Label" parent="HUD"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+[node name="MarginContainer" type="MarginContainer" parent="HUD"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="MessageTimer" type="Timer" parent="HUD"]
+[node name="Message" type="Label" parent="HUD/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 40
+text = "Test"
+
+[node name="MessageTimer" type="Timer" parent="."]
 wait_time = 2.0
 
 [node name="MainMenu" type="Control" parent="."]

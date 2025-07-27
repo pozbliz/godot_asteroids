@@ -22,6 +22,7 @@ signal player_died
 
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_PAUSABLE
 	current_hp = max_hp
 	var hp_bar = $HealthBar
 	hp_bar.max_value = max_hp

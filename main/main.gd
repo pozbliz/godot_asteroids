@@ -26,7 +26,7 @@ func _input(event):
 		if ui_state == $UI.UIState.GAMEPLAY:
 			$UI.open_pause_menu()
 		elif ui_state == $UI.UIState.PAUSE_MENU:
-			$UI.start_game()
+			$UI.resume_game()
 			
 func _on_ui_game_started():
 	get_tree().paused = false

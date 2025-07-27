@@ -19,7 +19,7 @@ signal asteroid_hit
 
 
 func _ready() -> void:
-	process_mode = Node.PROCESS_MODE_ALWAYS
+	process_mode = Node.PROCESS_MODE_PAUSABLE
 	$Area2D.body_entered.connect(_on_asteroid_body_entered)
 	$Area2D.area_entered.connect(_on_asteroid_area_entered)
 	$VisibleOnScreenNotifier2D.screen_exited.connect(_on_screen_exited)

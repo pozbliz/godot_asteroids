@@ -27,17 +27,15 @@ func _process(delta: float) -> void:
 	
 func _gui_input(event):
 	if event.is_action_pressed("ui_up"):
-		print("Inventory cursor moves up")
 		event.consume()
 	elif event.is_action_pressed("ui_down"):
-		print("Inventory cursor moves down")
 		event.consume()
 		
 func _on_start_game_button_pressed():
 	start_game()
 	
 func _on_resume_game_button_pressed():
-	start_game()
+	resume_game()
 	
 func _on_options_button_pressed():
 	open_options_menu()
@@ -82,13 +80,17 @@ func start_game():
 	get_tree().paused = false
 	game_started.emit()
 	
+func resume_game():
+	current_state = UIState.GAMEPLAY
+	$MainMenu.hide()
+	$PauseMenu.hide()
+	$OptionsMenu.hide()
+	$HUD.show()
+	get_tree().paused = false
+	
 func get_current_state() -> UIState:
 	return current_state
 	
 func is_game_running() -> bool:
 	return $HUD.visible and not $MainMenu.visible and not $PauseMenu.visible and not $OptionsMenu.visible
 	
-func show_message(text):
-	$HUD/Message.text = text
-	$HUD/Message.show()
-	$HUD/MessageTimer.start()

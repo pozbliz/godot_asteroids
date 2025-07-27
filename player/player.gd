@@ -79,6 +79,7 @@ func reset_player():
 	hp_bar.visible = false
 	hp_bar.value = current_hp
 	is_invulnerable = false
+	$CollisionShape2D.set_deferred("disabled", false)
 	
 func _on_invulnerability_timer_timeout():
 	is_invulnerable = false

@@ -9,7 +9,7 @@ var score: int = 0
 
 
 func _ready() -> void:
-	process_mode = Node.PROCESS_MODE_ALWAYS
+	process_mode = Node.PROCESS_MODE_INHERIT
 	$UI.game_started.connect(_on_ui_game_started)
 	$UI.open_main_menu()
 	$Audio/AudioMainMenu.play()
@@ -29,7 +29,12 @@ func _input(event):
 			$UI.start_game()
 			
 func _on_ui_game_started():
+	get_tree().paused = false
+	for asteroid in get_tree().get_nodes_in_group("asteroids"):
+		if is_instance_valid(asteroid):
+			asteroid.queue_free()
 	score = 0
+	$UI/HUD.update_score(score)
 	$Player.reset_player()
 	$Player.position = $PlayerStartPosition.position
 	$AsteroidTimer.start()
@@ -86,6 +91,7 @@ func _on_player_died():
 	game_over()
 	
 func game_over():
+	get_tree().paused = true
 	await $UI/HUD.show_game_over()
 	$UI.open_main_menu()
 	play_main_menu_music()

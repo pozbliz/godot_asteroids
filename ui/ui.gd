@@ -9,6 +9,7 @@ signal game_started
 
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	$MainMenu/MarginContainer/VBoxContainer/StartGameButton.pressed.connect(_on_start_game_button_pressed)
 	$MainMenu/MarginContainer/VBoxContainer/OptionsButton.pressed.connect(_on_options_button_pressed)
 	$MainMenu/MarginContainer/VBoxContainer/ExitGameButton.pressed.connect(_on_exit_game_button_pressed)

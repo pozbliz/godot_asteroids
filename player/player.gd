@@ -25,8 +25,10 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("move_forward"):
 		var target_velocity = transform.x * MAX_SPEED
 		velocity = velocity.lerp(target_velocity, ACCELERATION * delta)
+		$AnimatedSprite2D.play("moving")
 	else:
 		velocity *= FRICTION
+		$AnimatedSprite2D.play("idle")
 			
 	move_and_slide()
 	

@@ -23,6 +23,7 @@ signal player_died
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_PAUSABLE
+	hide()
 	current_hp = max_hp
 	var hp_bar = $HealthBar
 	hp_bar.max_value = max_hp
@@ -76,6 +77,7 @@ func take_damage(amount: int):
 		player_died.emit()
 	
 func reset_player():
+	show()
 	current_hp = max_hp
 	hp_bar.visible = false
 	hp_bar.value = current_hp
@@ -86,4 +88,4 @@ func _on_invulnerability_timer_timeout():
 	is_invulnerable = false
 	
 func play_death_animation():
-	pass
+	pass  # TODO: add death animation

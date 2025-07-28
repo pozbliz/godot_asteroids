@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="AsteroidConfig" load_steps=3 format=3 uid="uid://cy4yseypumbon"]
+
+[ext_resource type="Script" uid="uid://wtwwg02j72js" path="res://asteroids/asteroid_config.gd" id="1_wt4g6"]
+[ext_resource type="Texture2D" uid="uid://71b470bo87r6" path="res://art/sprites/asteroid_small.png" id="2_lwe64"]
+
+[resource]
+script = ExtResource("1_wt4g6")
+texture = ExtResource("2_lwe64")
+size_range = Vector2(1.5, 2.5)
+points = 1
+damage = 1
+speed = 200.0
+metadata/_custom_type_script = "uid://wtwwg02j72js"

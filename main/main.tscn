@@ -1,12 +1,13 @@
-[gd_scene load_steps=9 format=3 uid="uid://3ype7sdg6qmg"]
+[gd_scene load_steps=10 format=3 uid="uid://3ype7sdg6qmg"]
 
 [ext_resource type="Script" uid="uid://x6o647o2k51q" path="res://main/main.gd" id="1_53q0u"]
 [ext_resource type="PackedScene" uid="uid://c2os765h43jfg" path="res://player/player.tscn" id="2_3wy1v"]
 [ext_resource type="PackedScene" uid="uid://cbw12rosm8j2k" path="res://scenes/asteroid.tscn" id="2_4dugh"]
 [ext_resource type="PackedScene" uid="uid://dh0kc5ysas7xu" path="res://ui/ui.tscn" id="2_pjrb6"]
-[ext_resource type="PackedScene" uid="uid://deohgif4ljbbu" path="res://scenes/asteroid_small.tscn" id="3_67ri8"]
+[ext_resource type="Resource" uid="uid://rq0lkvchorae" path="res://asteroids/asteroid_big.tres" id="3_67ri8"]
 [ext_resource type="AudioStream" uid="uid://clct07bltt7ry" path="res://art/music/loading.wav" id="3_xwkvk"]
 [ext_resource type="AudioStream" uid="uid://8jxme72qogq7" path="res://art/music/meet-the-princess.wav" id="4_c651c"]
+[ext_resource type="Resource" uid="uid://cy4yseypumbon" path="res://asteroids/asteroid_small.tres" id="4_grrlh"]
 
 [sub_resource type="Curve2D" id="Curve2D_4dugh"]
 _data = {
@@ -17,7 +18,8 @@ point_count = 5
 [node name="Main" type="Node"]
 script = ExtResource("1_53q0u")
 asteroid_scene = ExtResource("2_4dugh")
-asteroid_small_scene = ExtResource("3_67ri8")
+big_asteroid_config = ExtResource("3_67ri8")
+small_asteroid_config = ExtResource("4_grrlh")
 
 [node name="Player" parent="." instance=ExtResource("2_3wy1v")]
 

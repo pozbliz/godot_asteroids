@@ -2,7 +2,8 @@ extends Node
 
 
 @export var asteroid_scene: PackedScene
-@export var asteroid_small_scene: PackedScene
+@export var big_asteroid_config: AsteroidConfig
+@export var small_asteroid_config: AsteroidConfig
 
 
 var score: int = 0
@@ -49,40 +50,31 @@ func play_game_music():
 	$Audio/AudioGameplay.play()
 	
 func _on_asteroid_timer_timeout():
-	var asteroid: Asteroid
-	if randf() < 0.5:
-		asteroid = create_asteroid()
-	else:
-		asteroid = create_small_asteroid()
-	var asteroid_spawn_location = $AsteroidPath/AsteroidSpawnLocation
-	asteroid_spawn_location.progress_ratio = randf()
-	asteroid.position = asteroid_spawn_location.position
-	
-	var angle = asteroid_spawn_location.rotation + PI / 2 + randf_range(-PI / 4, PI / 4)
+	var is_big = randf() < 0.5
+	var config = big_asteroid_config if is_big else small_asteroid_config
+	spawn_asteroid(config)
+
+func spawn_asteroid(config: AsteroidConfig):
+	var asteroid: Asteroid = asteroid_scene.instantiate()
+	add_child(asteroid)
+
+	asteroid.player_hit.connect(_on_player_hit)
+	asteroid.asteroid_hit.connect(_on_asteroid_hit)
+	var spawn_location = $AsteroidPath/AsteroidSpawnLocation
+	spawn_location.progress_ratio = randf()
+	asteroid.position = spawn_location.position
+
+	var angle = spawn_location.rotation + PI / 2 + randf_range(-PI / 4, PI / 4)
 	var dir = Vector2(cos(angle), sin(angle)).normalized()
-	asteroid.setup(dir)
-	
-func create_asteroid() -> Asteroid:
-	var asteroid = asteroid_scene.instantiate()
-	add_child(asteroid)
-	asteroid.player_hit.connect(_on_player_hit)
-	asteroid.asteroid_hit.connect(_on_asteroid_hit)
-	asteroid.rescale(randf_range(3.0, 6.0))
-	asteroid.points = 2
-	asteroid.damage = 1
-	
-	return asteroid
-	
-func create_small_asteroid() -> Asteroid:
-	var asteroid = asteroid_small_scene.instantiate()
-	add_child(asteroid)
-	asteroid.player_hit.connect(_on_player_hit)
-	asteroid.asteroid_hit.connect(_on_asteroid_hit)
-	asteroid.rescale(randf_range(1.5, 2.5))
-	asteroid.points = 1
-	asteroid.damage = 1
-	
-	return asteroid
+
+	asteroid.setup(
+		config.texture,
+		randf_range(config.size_range.x, config.size_range.y),
+		config.points,
+		config.damage,
+		dir,
+		config.speed
+	)
 	
 func _on_player_hit(damage: int):
 	$Player.take_damage(damage)
@@ -105,18 +97,20 @@ func _on_asteroid_hit(points: int, position: Vector2, direction: Vector2):
 		split_asteroid(position, direction)
 	
 func split_asteroid(position: Vector2, direction: Vector2):
-	var angle_offset1 = randf_range(-PI / 6, PI / 6)
-	var angle_offset2 = randf_range(-PI / 6, PI / 6)
+	var angle_offsets = [randf_range(-PI / 6, PI / 6), randf_range(-PI / 6, PI / 6)]
 	
-	var dir1 = direction.rotated(angle_offset1)
-	var dir2 = direction.rotated(angle_offset2)
-	
-	var asteroid1 = create_small_asteroid()
-	asteroid1.position = position
-	asteroid1.default_speed = 100
-	asteroid1.setup(dir1, asteroid1.default_speed)
-	
-	var asteroid2 = create_small_asteroid()
-	asteroid2.position = position
-	asteroid2.default_speed = 100
-	asteroid2.setup(dir2, asteroid2.default_speed)
+	for offset in angle_offsets:
+		var dir = direction.rotated(offset)
+		var asteroid: Asteroid = asteroid_scene.instantiate()
+		add_child(asteroid)
+		
+		asteroid.player_hit.connect(_on_player_hit)
+		asteroid.position = position
+		asteroid.setup(
+			small_asteroid_config.texture,
+			randf_range(small_asteroid_config.size_range.x, small_asteroid_config.size_range.y),
+			small_asteroid_config.points,
+			small_asteroid_config.damage,
+			dir,
+			small_asteroid_config.speed / 2
+		)

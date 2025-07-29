@@ -93,3 +93,4 @@ func _on_invulnerability_timer_timeout():
 func play_death_animation():
 	$HealthBar.hide()
 	$AnimatedSprite2D.play("death")
+	AudioManager.play("res://art/sound/Bluezone_BC0294_modern_cinematic_impact_boom_003.wav", 1.0, 10.0)

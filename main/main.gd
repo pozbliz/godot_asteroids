@@ -52,6 +52,10 @@ func play_game_music():
 	$Audio/AudioMainMenu.stop()
 	$Audio/AudioGameplay.play()
 	
+func stop_music():
+	$Audio/AudioMainMenu.stop()
+	$Audio/AudioGameplay.stop()
+	
 func _on_asteroid_timer_timeout():
 	var is_big = randf() < 0.5
 	var config = big_asteroid_config if is_big else small_asteroid_config
@@ -89,6 +93,7 @@ func game_over():
 	$Player.set_process(false)
 	$Player.set_physics_process(false)
 	$Player.set_process_unhandled_input(false)
+	stop_music()
 	$Player.play_death_animation()
 	await $UI/HUD.show_game_over()
 	$UI.open_main_menu()

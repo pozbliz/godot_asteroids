@@ -39,6 +39,9 @@ func _on_ui_game_started():
 	$Player.reset_player()
 	$Player.position = $PlayerStartPosition.position
 	$AsteroidTimer.start()
+	$Player.set_process(true)
+	$Player.set_physics_process(true)
+	$Player.set_process_unhandled_input(true)
 	play_game_music()
 	
 func play_main_menu_music():
@@ -83,7 +86,10 @@ func _on_player_died():
 	game_over()
 	
 func game_over():
-	get_tree().paused = true
+	$Player.set_process(false)
+	$Player.set_physics_process(false)
+	$Player.set_process_unhandled_input(false)
+	$Player.play_death_animation()
 	await $UI/HUD.show_game_over()
 	$UI.open_main_menu()
 	play_main_menu_music()

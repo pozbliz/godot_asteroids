@@ -51,7 +51,7 @@ theme_override_font_sizes/font_size = 40
 text = "Test"
 
 [node name="MessageTimer" type="Timer" parent="HUD/MarginContainer"]
-wait_time = 2.0
+wait_time = 3.0
 
 [node name="MainMenu" type="Control" parent="."]
 layout_mode = 3

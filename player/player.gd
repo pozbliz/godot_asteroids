@@ -59,7 +59,8 @@ func shoot():
 	var shot = projectile_scene.instantiate()
 	owner.add_child(shot)
 	shot.transform = $CannonPosition.global_transform
-	AudioManager.play("res://art/sound/Laser_Beam_004_short.wav", randf_range(0.9, 1.1))
+	
+	AudioManager.play("res://art/sound/Bluezone_BC0295_sci_fi_weapon_gun_shot_008.wav", randf_range(0.8, 1.2))
 	time_since_last_shot = 0
 	
 func take_damage(amount: int):
@@ -83,10 +84,12 @@ func reset_player():
 	hp_bar.visible = false
 	hp_bar.value = current_hp
 	is_invulnerable = false
+	time_since_last_shot = SHOT_COOLDOWN
 	$CollisionShape2D.set_deferred("disabled", false)
 	
 func _on_invulnerability_timer_timeout():
 	is_invulnerable = false
 	
 func play_death_animation():
-	pass  # TODO: add death animation
+	$HealthBar.hide()
+	$AnimatedSprite2D.play("death")

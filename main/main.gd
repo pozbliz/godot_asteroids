@@ -103,6 +103,7 @@ func _on_asteroid_hit(points: int, position: Vector2, direction: Vector2):
 		split_asteroid(position, direction)
 	
 func split_asteroid(position: Vector2, direction: Vector2):
+	AudioManager.play("res://art/sound/Bluezone_BC0297_stone_impact_041.wav", randf_range(0.8, 1.2))
 	var angle_offsets = [randf_range(-PI / 6, PI / 6), randf_range(-PI / 6, PI / 6)]
 	
 	for offset in angle_offsets:

@@ -19,17 +19,21 @@ func _ready():
 func _on_stream_finished(stream):
 	available.append(stream)
 	
-func play(sound_path: String, pitch: float = 1.0, volume_db: float = 0.0, loop: bool = false, bus: String = "master"):
+func play(
+		sound_path: String, 
+		pitch: float = 1.0, 
+		volume_db: float = 0.0,  
+		bus: String = "master"
+	):
 	queue.append({ 
 		"path": sound_path,
 		"pitch": pitch,
 		"volume": volume_db,
-		"loop": loop,
 		"bus": bus
 	})
 	
 func _process(delta):
-	if not queue.empty() and not available.empty():
+	if not queue.is_empty() and not available.is_empty():
 		var sound_data = queue.pop_front()
 		var player = available.pop_front()
 		
@@ -44,7 +48,4 @@ func _process(delta):
 		player.volume_db = sound_data.volume
 		player.bus = sound_data.bus
 		
-		if player.stream is AudioStream:
-			player.stream.loop = sound_data.loop
-
 		player.play()

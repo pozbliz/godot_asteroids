@@ -59,6 +59,7 @@ func shoot():
 	var shot = projectile_scene.instantiate()
 	owner.add_child(shot)
 	shot.transform = $CannonPosition.global_transform
+	AudioManager.play("res://art/sound/Laser_Beam_004_short.wav", randf_range(0.9, 1.1))
 	time_since_last_shot = 0
 	
 func take_damage(amount: int):

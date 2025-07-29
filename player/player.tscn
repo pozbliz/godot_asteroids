@@ -94,3 +94,5 @@ show_percentage = false
 
 [node name="InvulnerabilityTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]

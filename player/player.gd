@@ -71,17 +71,23 @@ func take_damage(amount: int):
 	$InvulnerabilityTimer.start()
 		
 	current_hp -= amount
-	hp_bar.visible = true
+	toggle_hpbar()
 	hp_bar.value = current_hp
 	
 	if current_hp <= 0:
 		$CollisionShape2D.set_deferred("disabled", true)
 		player_died.emit()
+		
+func toggle_hpbar():
+	if current_hp < max_hp:
+		hp_bar.visible()
+	else:
+		hp_bar.hide()
 	
 func reset_player():
 	show()
 	current_hp = max_hp
-	hp_bar.visible = false
+	toggle_hpbar()
 	hp_bar.value = current_hp
 	is_invulnerable = false
 	time_since_last_shot = SHOT_COOLDOWN
@@ -89,6 +95,20 @@ func reset_player():
 	
 func _on_invulnerability_timer_timeout():
 	is_invulnerable = false
+	
+func heal(amount: int):
+	current_hp += amount
+	toggle_hpbar()
+	
+func enable_shield(duration: float):
+	is_invulnerable = true
+	# TODO: add visual effect
+	var timer: SceneTreeTimer = get_tree().create_timer(duration)
+	await timer.timeout
+	is_invulnerable = false
+	
+func activate_multishot(duration: float):
+	pass
 	
 func play_death_animation():
 	$HealthBar.hide()

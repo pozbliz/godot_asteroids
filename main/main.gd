@@ -2,8 +2,10 @@ extends Node
 
 
 @export var asteroid_scene: PackedScene
+@export var powerup_scene: PackedScene
 @export var big_asteroid_config: AsteroidConfig
 @export var small_asteroid_config: AsteroidConfig
+@export var powerup_configs: Array[PowerUpConfig] = []
 
 
 var score: int = 0
@@ -104,6 +106,9 @@ func _on_asteroid_hit(points: int, position: Vector2, direction: Vector2):
 	score += points
 	$UI/HUD.update_score(score)
 	
+	if randf() < 0.1:
+		spawn_powerup(position)
+	
 	if points > 1:
 		split_asteroid(position, direction)
 	
@@ -126,3 +131,37 @@ func split_asteroid(position: Vector2, direction: Vector2):
 			dir,
 			small_asteroid_config.speed / 2
 		)
+		
+func spawn_powerup(position: Vector2):
+	var config: PowerUpConfig = pick_weighted_random(powerup_configs)
+	var powerup: PowerUp = powerup_scene.instantiate()
+	
+	powerup.texture = config.texture  #TODO: craete sprites
+	powerup.default_speed = config.speed
+	powerup.type = config.type
+	powerup.powerup_picked_up.connect(_on_powerup_picked_up)
+	powerup.position = position
+	
+func pick_weighted_random(configs: Array[PowerUpConfig]) -> PowerUpConfig:
+	var total_weight: float = 0.0
+	for config in configs:
+		total_weight += config.spawn_chance
+		
+	var rng: float = randf_range(0.0, total_weight)
+	
+	var cumulative: float = 0.0
+	for config in configs:
+		cumulative += config.spawn_chance
+		if rng <= cumulative:
+			return config
+	
+	return configs.front()
+	
+func _on_powerup_picked_up(type: String):
+	match type:
+		"heal":
+			$Player.heal(3)
+		"shield":
+			$Player.enable_shield(5.0)
+		"multishot":
+			$Player.activate_multishot(8.0)

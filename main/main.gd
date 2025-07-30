@@ -136,11 +136,12 @@ func spawn_powerup(position: Vector2):
 	var config: PowerUpConfig = pick_weighted_random(powerup_configs)
 	var powerup: PowerUp = powerup_scene.instantiate()
 	
-	powerup.texture = config.texture  #TODO: craete sprites
+	powerup.texture = config.texture  #TODO: create sprites
 	powerup.default_speed = config.speed
 	powerup.type = config.type
 	powerup.powerup_picked_up.connect(_on_powerup_picked_up)
 	powerup.position = position
+	# TODO: add powerup sound effect for spawn
 	
 func pick_weighted_random(configs: Array[PowerUpConfig]) -> PowerUpConfig:
 	var total_weight: float = 0.0
@@ -158,6 +159,7 @@ func pick_weighted_random(configs: Array[PowerUpConfig]) -> PowerUpConfig:
 	return configs.front()
 	
 func _on_powerup_picked_up(type: String):
+	# TODO: add powerup sound effect for pickup
 	match type:
 		"heal":
 			$Player.heal(3)

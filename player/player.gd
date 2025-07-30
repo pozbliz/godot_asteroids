@@ -80,7 +80,7 @@ func take_damage(amount: int):
 		
 func toggle_hpbar():
 	if current_hp < max_hp:
-		hp_bar.visible()
+		hp_bar.show()
 	else:
 		hp_bar.hide()
 	

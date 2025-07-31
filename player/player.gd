@@ -17,6 +17,7 @@ var turn_direction: int = 0
 var time_since_last_shot: float = 0.0
 var current_hp: int
 var is_invulnerable: bool = false
+var multishot_enabled: bool = false
 
 signal player_died
 
@@ -60,6 +61,15 @@ func shoot():
 	owner.add_child(shot)
 	shot.transform = $CannonPosition.global_transform
 	
+	if multishot_enabled:
+		var multishot_angles: Array = [-10, 10]
+		for angle in multishot_angles:
+			shot = projectile_scene.instantiate()
+			shot.global_position = $CannonPosition.global_position
+			shot.rotation = $CannonPosition.global_rotation + deg_to_rad(angle)
+	
+			owner.add_child(shot)
+	
 	AudioManager.play("res://art/sound/Bluezone_BC0295_sci_fi_weapon_gun_shot_008.wav", randf_range(0.8, 1.2))
 	time_since_last_shot = 0
 	
@@ -98,7 +108,10 @@ func _on_invulnerability_timer_timeout():
 	
 func heal(amount: int):
 	current_hp += amount
+	if current_hp > max_hp:
+		current_hp = max_hp
 	toggle_hpbar()
+	hp_bar.value = current_hp
 	
 func enable_shield(duration: float):
 	is_invulnerable = true
@@ -108,7 +121,10 @@ func enable_shield(duration: float):
 	is_invulnerable = false
 	
 func activate_multishot(duration: float):
-	pass
+	multishot_enabled = true
+	var timer: SceneTreeTimer = get_tree().create_timer(duration)
+	await timer.timeout
+	multishot_enabled = false
 	
 func play_death_animation():
 	$HealthBar.hide()

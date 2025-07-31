@@ -1,10 +1,13 @@
-[gd_resource type="Resource" script_class="PowerUpConfig" load_steps=2 format=3 uid="uid://cggrfn0f46xdu"]
+[gd_resource type="Resource" script_class="PowerUpConfig" load_steps=3 format=3 uid="uid://cggrfn0f46xdu"]
 
 [ext_resource type="Script" uid="uid://bqgki2ekdyo5w" path="res://power_ups/powerup_config.gd" id="1_mhj7b"]
+[ext_resource type="Texture2D" uid="uid://dkgf7xfs1ahor" path="res://art/sprites/powerups/powerup_shield.png" id="2_y83ul"]
 
 [resource]
 script = ExtResource("1_mhj7b")
+texture = ExtResource("2_y83ul")
 speed = 100.0
 type = "shield"
 spawn_chance = 0.8
+duration = 5.0
 metadata/_custom_type_script = "uid://bqgki2ekdyo5w"

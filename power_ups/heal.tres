@@ -1,10 +1,13 @@
-[gd_resource type="Resource" script_class="PowerUpConfig" load_steps=2 format=3 uid="uid://b6yyp8ckjy22q"]
+[gd_resource type="Resource" script_class="PowerUpConfig" load_steps=3 format=3 uid="uid://b6yyp8ckjy22q"]
 
 [ext_resource type="Script" uid="uid://bqgki2ekdyo5w" path="res://power_ups/powerup_config.gd" id="1_1rr3v"]
+[ext_resource type="Texture2D" uid="uid://bm5hkl40dmagj" path="res://art/sprites/powerups/powerup_heal.png" id="2_i1uy8"]
 
 [resource]
 script = ExtResource("1_1rr3v")
+texture = ExtResource("2_i1uy8")
 speed = 50.0
-type = ""
+type = "heal"
 spawn_chance = 0.5
+duration = 3.0
 metadata/_custom_type_script = "uid://bqgki2ekdyo5w"

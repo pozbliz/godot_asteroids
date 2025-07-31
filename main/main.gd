@@ -106,7 +106,7 @@ func _on_asteroid_hit(points: int, position: Vector2, direction: Vector2):
 	score += points
 	$UI/HUD.update_score(score)
 	
-	if randf() < 1:
+	if randf() < 0.1:
 		spawn_powerup(position)
 	
 	if points > 1:
@@ -141,7 +141,7 @@ func spawn_powerup(position: Vector2):
 	powerup.default_speed = config.speed
 	powerup.powerup_picked_up.connect(_on_powerup_picked_up)
 	powerup.position = position
-	# TODO: add powerup sound effect for spawn
+	
 	add_child(powerup)
 	
 func pick_weighted_random(configs: Array[PowerUpConfig]) -> PowerUpConfig:
@@ -161,10 +161,9 @@ func pick_weighted_random(configs: Array[PowerUpConfig]) -> PowerUpConfig:
 	
 func _on_powerup_picked_up(config: PowerUpConfig):
 	# TODO: add powerup sound effect for pickup
+	# TODO: add visual effects
 	match config.type:
 		"heal":
 			$Player.heal(3)
-		"shield":
-			$Player.enable_shield(config.duration)
-		"multishot":
-			$Player.activate_multishot(config.duration)
+		_:
+			$Player.activate_powerup(config.type, config.duration)

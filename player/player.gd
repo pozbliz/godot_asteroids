@@ -18,6 +18,7 @@ var time_since_last_shot: float = 0.0
 var current_hp: int
 var is_invulnerable: bool = false
 var multishot_enabled: bool = false
+var active_powerups := {}
 
 signal player_died
 
@@ -50,6 +51,7 @@ func _physics_process(delta: float) -> void:
 	
 func _process(delta: float) -> void:
 	time_since_last_shot += delta
+	_update_powerups(delta)
 	
 func _unhandled_input(event: InputEvent) -> void:
 	turn_direction = Input.get_axis("turn_left", "turn_right")
@@ -113,18 +115,37 @@ func heal(amount: int):
 	toggle_hpbar()
 	hp_bar.value = current_hp
 	
-func enable_shield(duration: float):
-	is_invulnerable = true
-	# TODO: add visual effect
-	var timer: SceneTreeTimer = get_tree().create_timer(duration)
-	await timer.timeout
-	is_invulnerable = false
+func activate_powerup(powerup_name: String, duration: float) -> void:
+	if active_powerups.has(powerup_name):
+		active_powerups[powerup_name] += duration
+	else:
+		active_powerups[powerup_name] = duration
+		_start_powerup(powerup_name)
 	
-func activate_multishot(duration: float):
-	multishot_enabled = true
-	var timer: SceneTreeTimer = get_tree().create_timer(duration)
-	await timer.timeout
-	multishot_enabled = false
+func _update_powerups(delta: float) -> void:
+	for powerup in active_powerups.keys():
+		active_powerups[powerup] -= delta
+		if active_powerups[powerup] <= 0:
+			_end_powerup(powerup)
+	
+func _start_powerup(powerup_name: String) -> void:
+	match powerup_name:
+		"multishot":
+			multishot_enabled = true
+		"shield":
+			is_invulnerable = true
+		_:
+			pass
+
+func _end_powerup(powerup_name: String) -> void:
+	match powerup_name:
+		"multishot":
+			multishot_enabled = false
+		"shield":
+			is_invulnerable = false
+		_:
+			pass
+	active_powerups.erase(powerup_name)
 	
 func play_death_animation():
 	$HealthBar.hide()

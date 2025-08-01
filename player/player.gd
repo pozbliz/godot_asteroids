@@ -139,7 +139,6 @@ func _start_powerup(powerup_name: String) -> void:
 			shield_effect_instance.global_position = global_position
 			get_tree().current_scene.add_child(shield_effect_instance)
 			shield_effect_instance.follow_target = self
-			shield_effect_instance.set_as_top_level(true)
 			shield_effect_instance.play("shield")
 			is_invulnerable = true
 		"heal":
@@ -147,7 +146,6 @@ func _start_powerup(powerup_name: String) -> void:
 			effect.global_position = global_position
 			get_tree().current_scene.add_child(effect)
 			effect.follow_target = self
-			effect.set_as_top_level(true)
 			effect.play("heal")
 			heal(3)
 

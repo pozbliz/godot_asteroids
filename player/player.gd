@@ -101,6 +101,8 @@ func take_damage(amount: int):
 	toggle_hpbar()
 	hp_bar.value = current_hp
 	
+	AudioManager.play("res://art/sound/player_hit.wav", 1.0, 10)
+	
 	if current_hp <= 0:
 		$CollisionShape2D.set_deferred("disabled", true)
 		player_died.emit()

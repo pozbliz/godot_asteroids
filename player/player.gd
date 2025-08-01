@@ -21,15 +21,18 @@ var is_invulnerable: bool = false
 var multishot_enabled: bool = false
 var active_powerups := {}
 var shield_effect_instance: Node = null
+var viewport: Vector2
 
 signal player_died
 
 
 func _ready() -> void:
+	var hp_bar = $HealthBar
+	
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 	hide()
+	viewport = get_viewport_rect().size
 	current_hp = max_hp
-	var hp_bar = $HealthBar
 	hp_bar.max_value = max_hp
 	hp_bar.value = max_hp
 	hp_bar.visible = false
@@ -50,6 +53,15 @@ func _physics_process(delta: float) -> void:
 		$AnimatedSprite2D.play("idle")
 			
 	move_and_slide()
+	
+	if position.x < 0:
+		position.x = viewport.x
+	if position.x > viewport.x:
+		position.x = 0
+	if position.y < 0:
+		position.y = viewport.y
+	if position.y > viewport.y:
+		position.y = 0
 	
 func _process(delta: float) -> void:
 	time_since_last_shot += delta

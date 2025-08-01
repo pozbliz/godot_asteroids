@@ -9,7 +9,7 @@ class_name Player
 
 const ACCELERATION: float = 1.5
 const MAX_SPEED: float = 800.0
-const ROTATION_SPEED: float = 3.0
+const ROTATION_SPEED: float = 4.0
 const FRICTION: float = 0.98
 const SHOT_COOLDOWN : float = 0.3
 const EFFECT_SCENE = preload("res://power_ups/power_up_effect.tscn")
@@ -18,6 +18,7 @@ var turn_direction: int = 0
 var time_since_last_shot: float = 0.0
 var current_hp: int
 var is_invulnerable: bool = false
+var is_shielded: bool = false
 var multishot_enabled: bool = false
 var active_powerups := {}
 var shield_effect_instance: Node = null
@@ -90,7 +91,7 @@ func shoot():
 	time_since_last_shot = 0
 	
 func take_damage(amount: int):
-	if is_invulnerable:
+	if is_invulnerable or is_shielded:
 		return
 		
 	is_invulnerable = true
@@ -116,6 +117,8 @@ func reset_player():
 	toggle_hpbar()
 	hp_bar.value = current_hp
 	is_invulnerable = false
+	is_shielded = false
+	velocity = Vector2.ZERO
 	time_since_last_shot = SHOT_COOLDOWN
 	$CollisionShape2D.set_deferred("disabled", false)
 	
@@ -146,13 +149,15 @@ func _start_powerup(powerup_name: String) -> void:
 	match powerup_name:
 		"multishot":
 			multishot_enabled = true
+			AudioManager.play("res://art/sound/powerup_multishot.wav")
 		"shield":
 			shield_effect_instance = EFFECT_SCENE.instantiate()
 			shield_effect_instance.global_position = global_position
 			get_tree().current_scene.add_child(shield_effect_instance)
 			shield_effect_instance.follow_target = self
 			shield_effect_instance.play("shield")
-			is_invulnerable = true
+			is_shielded = true
+			AudioManager.play("res://art/sound/powerup_shield.wav")
 		"heal":
 			var effect = EFFECT_SCENE.instantiate()
 			effect.global_position = global_position
@@ -160,13 +165,14 @@ func _start_powerup(powerup_name: String) -> void:
 			effect.follow_target = self
 			effect.play("heal")
 			heal(3)
+			AudioManager.play("res://art/sound/powerup_heal.wav")
 
 func _end_powerup(powerup_name: String) -> void:
 	match powerup_name:
 		"multishot":
 			multishot_enabled = false
 		"shield":
-			is_invulnerable = false
+			is_shielded = false
 			if shield_effect_instance:
 				shield_effect_instance.queue_free()
 				shield_effect_instance = null

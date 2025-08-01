@@ -105,7 +105,7 @@ func _on_asteroid_hit(points: int, position: Vector2, direction: Vector2):
 	score += points
 	$UI/HUD.update_score(score)
 	
-	if randf() < 0.1:
+	if randf() < 0.2:
 		spawn_powerup(position)
 	
 	if points > 1:

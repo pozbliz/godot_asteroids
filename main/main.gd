@@ -99,13 +99,14 @@ func game_over():
 	$Player.play_death_animation()
 	await $UI/HUD.show_game_over()
 	$UI.open_main_menu()
+	get_tree().call_group("powerups", "queue_free")
 	play_main_menu_music()
 	
 func _on_asteroid_hit(points: int, position: Vector2, direction: Vector2):
 	score += points
 	$UI/HUD.update_score(score)
 	
-	if randf() < 0.2:
+	if randf() < 2:
 		spawn_powerup(position)
 	
 	if points > 1:
@@ -141,6 +142,8 @@ func spawn_powerup(position: Vector2):
 	powerup.powerup_picked_up.connect(_on_powerup_picked_up)
 	powerup.position = position
 	
+	powerup.add_to_group("powerups")
+	
 	add_child(powerup)
 	
 func pick_weighted_random(configs: Array[PowerUpConfig]) -> PowerUpConfig:
@@ -159,5 +162,4 @@ func pick_weighted_random(configs: Array[PowerUpConfig]) -> PowerUpConfig:
 	return configs.front()
 	
 func _on_powerup_picked_up(config: PowerUpConfig):
-	# TODO: add powerup sound effect for pickup
 	$Player.activate_powerup(config.type, config.duration)

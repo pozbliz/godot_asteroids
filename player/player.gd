@@ -3,6 +3,7 @@ class_name Player
 
 
 @onready var hp_bar = $HealthBar
+@onready var viewport = get_viewport_rect().size
 
 @export var projectile_scene: PackedScene
 @export var max_hp: int = 3
@@ -22,7 +23,7 @@ var is_shielded: bool = false
 var multishot_enabled: bool = false
 var active_powerups := {}
 var shield_effect_instance: Node = null
-var viewport: Vector2
+
 
 signal player_died
 
@@ -32,7 +33,6 @@ func _ready() -> void:
 	
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 	hide()
-	viewport = get_viewport_rect().size
 	current_hp = max_hp
 	hp_bar.max_value = max_hp
 	hp_bar.value = max_hp

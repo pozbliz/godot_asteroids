@@ -6,6 +6,7 @@ class_name PowerUp
 @export var default_speed: float = 50.0
 
 @onready var sprite = $Sprite2D
+@onready var viewport = get_viewport_rect().size
 
 var direction: Vector2 = Vector2.ZERO
 var config: PowerUpConfig
@@ -26,6 +27,15 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	var velocity = direction * default_speed
 	position += velocity * delta
+	
+	if position.x < 0:
+		position.x = viewport.x
+	if position.x > viewport.x:
+		position.x = 0
+	if position.y < 0:
+		position.y = viewport.y
+	if position.y > viewport.y:
+		position.y = 0
 	
 func _on_body_entered(body):
 	if body is Player:

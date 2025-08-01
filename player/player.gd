@@ -9,9 +9,10 @@ class_name Player
 
 const ACCELERATION: float = 1.5
 const MAX_SPEED: float = 800.0
-const ROTATION_SPEED: float = 2.5
+const ROTATION_SPEED: float = 3.0
 const FRICTION: float = 0.98
 const SHOT_COOLDOWN : float = 0.3
+const EFFECT_SCENE = preload("res://power_ups/power_up_effect.tscn")
 
 var turn_direction: int = 0
 var time_since_last_shot: float = 0.0
@@ -19,6 +20,7 @@ var current_hp: int
 var is_invulnerable: bool = false
 var multishot_enabled: bool = false
 var active_powerups := {}
+var shield_effect_instance: Node = null
 
 signal player_died
 
@@ -133,9 +135,21 @@ func _start_powerup(powerup_name: String) -> void:
 		"multishot":
 			multishot_enabled = true
 		"shield":
+			shield_effect_instance = EFFECT_SCENE.instantiate()
+			shield_effect_instance.global_position = global_position
+			get_tree().current_scene.add_child(shield_effect_instance)
+			shield_effect_instance.follow_target = self
+			shield_effect_instance.set_as_top_level(true)
+			shield_effect_instance.play("shield")
 			is_invulnerable = true
-		_:
-			pass
+		"heal":
+			var effect = EFFECT_SCENE.instantiate()
+			effect.global_position = global_position
+			get_tree().current_scene.add_child(effect)
+			effect.follow_target = self
+			effect.set_as_top_level(true)
+			effect.play("heal")
+			heal(3)
 
 func _end_powerup(powerup_name: String) -> void:
 	match powerup_name:
@@ -143,6 +157,9 @@ func _end_powerup(powerup_name: String) -> void:
 			multishot_enabled = false
 		"shield":
 			is_invulnerable = false
+			if shield_effect_instance:
+				shield_effect_instance.queue_free()
+				shield_effect_instance = null
 		_:
 			pass
 	active_powerups.erase(powerup_name)

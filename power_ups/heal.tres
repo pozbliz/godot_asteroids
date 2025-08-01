@@ -9,5 +9,5 @@ texture = ExtResource("2_i1uy8")
 speed = 50.0
 type = "heal"
 spawn_chance = 0.5
-duration = 3.0
+duration = 0.1
 metadata/_custom_type_script = "uid://bqgki2ekdyo5w"

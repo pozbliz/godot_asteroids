@@ -102,11 +102,10 @@ func game_over():
 	play_main_menu_music()
 	
 func _on_asteroid_hit(points: int, position: Vector2, direction: Vector2):
-	# split asteroid into smaller pieces
 	score += points
 	$UI/HUD.update_score(score)
 	
-	if randf() < 0.1:
+	if randf() < 1:
 		spawn_powerup(position)
 	
 	if points > 1:
@@ -162,8 +161,4 @@ func pick_weighted_random(configs: Array[PowerUpConfig]) -> PowerUpConfig:
 func _on_powerup_picked_up(config: PowerUpConfig):
 	# TODO: add powerup sound effect for pickup
 	# TODO: add visual effects
-	match config.type:
-		"heal":
-			$Player.heal(3)
-		_:
-			$Player.activate_powerup(config.type, config.duration)
+	$Player.activate_powerup(config.type, config.duration)

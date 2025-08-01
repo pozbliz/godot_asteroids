@@ -1,0 +1,82 @@
+[gd_scene load_steps=13 format=3 uid="uid://6q6jfueaetqg"]
+
+[ext_resource type="Texture2D" uid="uid://doiu1lcx8jjwu" path="res://art/sprites/powerups/power_heal_effect.png" id="1_6lgvv"]
+[ext_resource type="Texture2D" uid="uid://cbyw67btfhyj6" path="res://art/sprites/powerups/powerup_shield_effect.png" id="2_vkhvn"]
+[ext_resource type="Script" uid="uid://beummadhgl5bf" path="res://power_ups/power_up_effect.gd" id="3_vkhvn"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h8hac"]
+atlas = ExtResource("1_6lgvv")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jkmlw"]
+atlas = ExtResource("1_6lgvv")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7nvgr"]
+atlas = ExtResource("1_6lgvv")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xm5yt"]
+atlas = ExtResource("1_6lgvv")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_velpc"]
+atlas = ExtResource("1_6lgvv")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ue6st"]
+atlas = ExtResource("1_6lgvv")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3vgbd"]
+atlas = ExtResource("1_6lgvv")
+region = Rect2(96, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t5nf5"]
+atlas = ExtResource("1_6lgvv")
+region = Rect2(112, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fh1n5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h8hac")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jkmlw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7nvgr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xm5yt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_velpc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ue6st")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3vgbd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t5nf5")
+}],
+"loop": false,
+"name": &"heal",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_vkhvn")
+}],
+"loop": true,
+"name": &"shield",
+"speed": 5.0
+}]
+
+[node name="PowerUpEffect" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_fh1n5")
+animation = &"heal"
+script = ExtResource("3_vkhvn")

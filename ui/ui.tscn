@@ -85,6 +85,11 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "Start Game"
 
+[node name="HowToPlayButton" type="Button" parent="MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "How To Play"
+
 [node name="OptionsButton" type="Button" parent="MainMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
@@ -96,6 +101,7 @@ theme_override_font_sizes/font_size = 30
 text = "Exit Game"
 
 [node name="PauseMenu" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -148,3 +154,42 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 theme = ExtResource("3_wl5ax")
+
+[node name="HowToPlayMenu" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_wl5ax")
+
+[node name="MarginContainer" type="MarginContainer" parent="HowToPlayMenu"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -75.5
+offset_bottom = 75.5
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 2
+theme_override_constants/margin_left = 200
+theme_override_constants/margin_right = 200
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HowToPlayMenu/MarginContainer"]
+layout_mode = 2
+
+[node name="HowToPlayLabel" type="Label" parent="HowToPlayMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "W/Up Arrow - Move Forward
+A/Left Arrow - Rotate Left
+D/Right Arrow - Rotate Right
+Space - Shoot"
+horizontal_alignment = 1
+
+[node name="BackButton" type="Button" parent="HowToPlayMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Back To Main Menu"

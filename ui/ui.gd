@@ -11,6 +11,7 @@ signal game_started
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	$MainMenu/MarginContainer/VBoxContainer/StartGameButton.pressed.connect(_on_start_game_button_pressed)
+	$MainMenu/MarginContainer/VBoxContainer/HowToPlayButton.pressed.connect(_on_how_to_play_button_pressed)
 	$MainMenu/MarginContainer/VBoxContainer/OptionsButton.pressed.connect(_on_options_button_pressed)
 	$MainMenu/MarginContainer/VBoxContainer/ExitGameButton.pressed.connect(_on_exit_game_button_pressed)
 	
@@ -18,6 +19,8 @@ func _ready() -> void:
 	$PauseMenu/MarginContainer/VBoxContainer/NewGameButton.pressed.connect(_on_start_game_button_pressed)
 	$PauseMenu/MarginContainer/VBoxContainer/OptionsButton.pressed.connect(_on_options_button_pressed)
 	$PauseMenu/MarginContainer/VBoxContainer/ExitGameButton.pressed.connect(_on_exit_game_button_pressed)
+	
+	$HowToPlayMenu/MarginContainer/VBoxContainer/BackButton.pressed.connect(_on_back_button_pressed)
 	
 	$PauseMenu.process_mode = Node.PROCESS_MODE_ALWAYS
 	
@@ -34,6 +37,12 @@ func _gui_input(event):
 func _on_start_game_button_pressed():
 	start_game()
 	
+func _on_how_to_play_button_pressed():
+	open_how_to_play_menu()
+	
+func _on_back_button_pressed():
+	open_main_menu()
+	
 func _on_resume_game_button_pressed():
 	resume_game()
 	
@@ -49,6 +58,7 @@ func open_main_menu():
 	$PauseMenu.hide()
 	$OptionsMenu.hide()
 	$HUD.hide()
+	$HowToPlayMenu.hide()
 	get_tree().paused = true
 	
 	$MainMenu/MarginContainer/VBoxContainer/StartGameButton.grab_focus()
@@ -70,7 +80,18 @@ func open_options_menu():
 	$OptionsMenu.show()
 	$HUD.hide()
 	get_tree().paused = true
-
+	
+func open_how_to_play_menu():
+	current_state = UIState.MAIN_MENU
+	$MainMenu.hide()
+	$PauseMenu.hide()
+	$OptionsMenu.hide()
+	$HUD.hide()
+	$HowToPlayMenu.show()
+	get_tree().paused = true
+	
+	$HowToPlayMenu/MarginContainer/VBoxContainer/BackButton.grab_focus()
+	
 func start_game():
 	current_state = UIState.GAMEPLAY
 	$MainMenu.hide()

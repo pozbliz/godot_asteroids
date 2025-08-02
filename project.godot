@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 AudioManager="*res://scripts/audio_manager.gd"
+SettingsManager="*res://util/settings.gd"
 
 [display]
 
@@ -27,6 +28,10 @@ window/size/viewport_height=600
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg")
+
+[gameplay]
+
+powerups_enabled=true
 
 [input]
 

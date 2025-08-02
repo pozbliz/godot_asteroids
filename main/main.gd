@@ -12,24 +12,16 @@ var score: int = 0
 
 
 func _ready() -> void:
-	process_mode = Node.PROCESS_MODE_INHERIT
 	$UI.game_started.connect(_on_ui_game_started)
 	$UI.open_main_menu()
 	$Audio/AudioMainMenu.play()
 	
 	$AsteroidTimer.timeout.connect(_on_asteroid_timer_timeout)
 	$Player.player_died.connect(_on_player_died)
+	
 
 func _process(delta: float) -> void:
 	pass
-
-func _input(event):
-	if Input.is_action_just_pressed("open_menu"):
-		var ui_state = $UI.get_current_state()
-		if ui_state == $UI.UIState.GAMEPLAY:
-			$UI.open_pause_menu()
-		elif ui_state == $UI.UIState.PAUSE_MENU:
-			$UI.resume_game()
 			
 func _on_ui_game_started():
 	get_tree().paused = false
@@ -106,8 +98,9 @@ func _on_asteroid_hit(points: int, position: Vector2, direction: Vector2):
 	score += points
 	$UI/HUD.update_score(score)
 	
-	if randf() < 2:
-		spawn_powerup(position)
+	if SettingsManager.powerups_enabled:
+		if randf() < 2:
+			spawn_powerup(position)
 	
 	if points > 1:
 		split_asteroid(position, direction)
